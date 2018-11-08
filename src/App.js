@@ -27,6 +27,14 @@ class App extends Component {
     this.setState({ counters });
   };
 
+  onDecrement = counter => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value--;
+    this.setState({ counters });
+  };
+
   onReset = () => {
     const counters = this.state.counters.map(c => {
       c.value = 0;
@@ -38,11 +46,14 @@ class App extends Component {
   render() {
     return (
       <main>
-        <Navbar counters={this.state.counters} />
+        <Navbar
+          totalCounters={this.state.counters.filter(c => c.value !== 0).length}
+        />
         <Counters
           counters={this.state.counters}
           onDelete={this.onDelete}
           onIncrement={this.onIncrement}
+          onDecrement={this.onDecrement}
           onReset={this.onReset}
         />
       </main>
